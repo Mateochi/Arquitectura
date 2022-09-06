@@ -1,0 +1,134 @@
+from machine import Pin as pin
+from utime import sleep as pausa, sleep_ms as pausams, sleep_us as sleepUS
+
+boton1=pin(13,pin.IN)
+boton2=pin(12,pin.IN)
+boton3=pin(14,pin.IN)
+boton4=pin(27,pin.IN)
+boton5=pin(26,pin.IN)
+boton6=pin(25,pin.IN)
+
+valpausa = 0.1
+
+
+numerosPuertos=[15,2,4,5,18,19,21,23,22]
+puertos=[]
+
+for i in numerosPuertos:
+    puertos.append (pin(i,pin.OUT))
+
+
+def derecha():
+    for elemento in puertos:
+        for i in range (2):
+            elemento.value(not elemento.value())
+            pausa(valpausa)
+
+def izquierda():
+        for elemento in reversed (puertos):
+            for i in range (2):
+                elemento.value(not elemento.value())
+                pausa(valpausa)
+
+def extremosAcentro():
+    for elemento in puertos[:4]:
+        for i in range (2):
+            elemento.value(not elemento.value())
+            pausa(valpausa)
+    for elemento in reversed (puertos[4:]):
+        for i in range (2):
+            elemento.value(not elemento.value())
+            pausa(valpausa)
+        
+
+def centroAextremos():
+    for elemento in puertos[4:]:
+        for i in range (2):
+            elemento.value(not elemento.value())
+            pausa(valpausa)
+    for elemento in reversed (puertos[:4]):
+        for i in range (2):
+            elemento.value(not elemento.value())
+            pausa(valpausa)
+
+def unoSiUnoNo():
+    for i in range(0,len(puertos),2):
+        puertos[i].value(1)
+        pausa(valpausa)
+        puertos[i].value(0)
+        pausa(valpausa)
+
+def dosAcadaLado_Adentro():
+    for elemento in puertos[:2]:
+        for i in range (2):
+            elemento.value(not elemento.value())
+            pausa(valpausa)
+    for elemento in reversed (puertos[6:]):
+        for i in range (2):
+            elemento.value(not elemento.value())
+            pausa(valpausa)        
+    for elemento in (puertos[2:4]):
+        for i in range (2):
+            elemento.value(not elemento.value())
+            pausa(valpausa)
+    for elemento in reversed (puertos[4:6]):#puertos[4:limite menos 1]
+        for i in range (2):
+            elemento.value(not elemento.value())
+            pausa(valpausa)
+
+def dosAcadaLado_Afuera():
+    for elemento in reversed (puertos[2:4]):
+        for i in range (2):
+            elemento.value(not elemento.value())
+            pausa(valpausa)
+    for elemento in puertos[4:6]:
+        for i in range (2):
+            elemento.value(not elemento.value())
+            pausa(valpausa)        
+    for elemento in reversed (puertos[:2]):
+        for i in range (2):
+            elemento.value(not elemento.value())
+            pausa(valpausa)
+    for elemento in puertos[6:]:#puertos[4:limite menos 1]
+        for i in range (2):
+            elemento.value(not elemento.value())
+            pausa(valpausa)
+
+def enciendeYapaga():
+    for elemento in reversed (puertos[:]):
+        for i in range (7):
+            elemento.value(not elemento.value())
+    pausa(valpausa)
+    for elemento in reversed (puertos[:]):
+        for i in range (7):
+            elemento.value(not elemento.value())
+    pausa(valpausa) 
+        
+while True:
+    if(boton1.value()==0):
+        derecha()
+        
+    if(boton2.value()==0):
+        izquierda()
+        
+    if(boton3.value()==0):
+        extremosAcentro()
+        
+    if(boton4.value()==0):
+        centroAextremos()
+        
+    if(boton1.value()==0):
+        if(boton2.value()==0):
+            unoSiUnoNo()
+            
+    if(boton1.value()==0):
+        if(boton3.value()==0):
+            dosAcadaLado_Adentro()
+            
+    if(boton1.value()==0):
+        if(boton4.value()==0):
+            dosAcadaLado_Afuera()
+    
+    if(boton2.value()==0):
+        if(boton3.value()==0):
+            enciendeYapaga(
